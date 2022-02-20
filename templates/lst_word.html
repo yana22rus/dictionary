@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href = "{{url_for ('static', filename = 'css/style.css')}}" rel = "stylesheet">
+</head>
+<body>
+
+
+<div align="center">
+<form method="POST">
+
+    <input type="text" name="english_word" size="15" placeholder="слово на анг-яз">
+    <input type="text" name="russia_word" size="15" placeholder="перевод">
+
+    <input type="submit" value="Добавить новое слово">
+
+
+
+</form>
+</div>
+
+<form method="POST">
+{% for item in items %}
+
+<p><div class="test">{{ item.english_word }} - {{ item.russia_word }}<input type="checkbox"><input type="submit" name="{{ item.id }}" class="btn" value="Удалить"></div></p>
+
+
+{% endfor %}
+</form>
+
+
+
+
+
+</body>
+</html>

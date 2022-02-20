@@ -1,0 +1,30 @@
+body {
+
+    color: green;
+
+}
+
+.test  {
+    width: 405px;
+    height: 30px;
+    border: 1px solid black;
+    padding: 5px 5px 5px 5px;
+  }
+
+
+button {
+    display: none;
+    float: right;
+
+
+}
+
+.btn {
+    display: none;
+    float: right;
+
+}
+
+input:checked~ .btn {
+  display: inline;
+}
