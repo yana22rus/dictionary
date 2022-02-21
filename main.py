@@ -26,25 +26,36 @@ def index():
 
 @app.route("/lst_word",methods=["GET","POST"])
 def lst_word():
+
     if request.method == "POST":
 
-        new_word = Dictionary(
+        if request.form['btn'] == 'Добавить новое слово':
 
-            english_word=request.form["english_word"],
-            russia_word=request.form["russia_word"],
-        )
 
-        db.session.add(new_word)
-        db.session.flush()
-        db.session.commit()
+            new_word = Dictionary(
 
-        return render_template("lst_word.html", items=Dictionary.query.all())
+                english_word=request.form["english_word"],
+                russia_word=request.form["russia_word"],
+            )
 
-    # if request.method == "POST":
-    #
-    #     print("Del")
-    #
-    #     return render_template("lst_word.html", items=Dictionary.query.all())
+            db.session.add(new_word)
+            db.session.flush()
+            db.session.commit()
+
+            return render_template("lst_word.html", items=Dictionary.query.all())
+
+        if request.form['btn'] == 'Удалить':
+
+            *d,c = request.form
+
+            for x in d:
+
+                Dictionary.query.filter(Dictionary.id == "".join(x)).delete()
+
+                db.session.commit()
+
+            return render_template("lst_word.html", items=Dictionary.query.all())
+
 
 
     return render_template("lst_word.html",items=Dictionary.query.all())

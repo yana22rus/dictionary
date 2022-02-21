@@ -14,7 +14,7 @@
     <input type="text" name="english_word" size="15" placeholder="слово на анг-яз">
     <input type="text" name="russia_word" size="15" placeholder="перевод">
 
-    <input type="submit" value="Добавить новое слово">
+    <input type="submit" name="btn" value="Добавить новое слово">
 
 
 
@@ -24,7 +24,7 @@
 <form method="POST">
 {% for item in items %}
 
-<p><div class="test">{{ item.english_word }} - {{ item.russia_word }}<input type="checkbox"><input type="submit" name="{{ item.id }}" class="btn" value="Удалить"></div></p>
+<p><div class="test">{{ item.english_word }} - {{ item.russia_word }}<input type="checkbox" name="{{item.id}}"><input type="submit" name="btn" class="btn" value="Удалить"></div></p>
 
 
 {% endfor %}
