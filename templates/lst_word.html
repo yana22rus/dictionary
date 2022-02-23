@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href = "{{url_for ('static', filename = 'css/style.css')}}" rel = "stylesheet">
-</head>
-<body>
+{% extends 'base.html' %}
 
-
+{% block content %}
 <div align="center">
 <form method="POST">
 
@@ -30,9 +23,4 @@
 {% endfor %}
 </form>
 
-
-
-
-
-</body>
-</html>
+{% endblock %}

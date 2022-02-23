@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block sidebar %}
+
+{% for m in menu_english %}
+<p><a href="{{m.url}}">{{m.name}}</a></p>
+{% endfor %}
+{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+
+<p>{{r_q_english_word}} - Перевод слова <input type="text" name="word"> <input type="submit"></p>
+
+</form>
+
+
+
+
+{% endblock %}

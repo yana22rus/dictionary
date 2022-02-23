@@ -1,3 +1,4 @@
+from random import choice
 import os
 from flask import Flask,render_template,request,url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -22,7 +23,7 @@ class Dictionary(db.Model):
 @app.route("/")
 def index():
 
-    return "123"
+    return render_template("index.html")
 
 @app.route("/lst_word",methods=["GET","POST"])
 def lst_word():
@@ -61,7 +62,52 @@ def lst_word():
     return render_template("lst_word.html",items=Dictionary.query.all())
 
 
+menu_english = [{"name":"Полный ввод слова","url":"input_english"},{"name":"Найти слово из списка","url":"lst_english"}]
 
+@app.route("/translate_english")
+def translate_from_english():
+
+    return render_template("translate_english.html",menu_english=menu_english)
+
+@app.route("/input_english",methods=["GET","POST"])
+def input_english():
+
+    lst_id_word = []
+
+    items = Dictionary.query.all()
+
+    for x in items:
+
+        lst_id_word.append(x.id)
+
+    r = choice(lst_id_word)
+
+    q = Dictionary.query.filter_by(id=r).first()
+
+    r_q_english_word = q.english_word
+
+
+    if request.method == "POST":
+
+        print(request.form["word"])
+
+        print(q.russia_word)
+
+
+    return render_template("input_english.html",menu_english=menu_english,r_q_english_word=r_q_english_word)
+
+
+@app.route("/lst_english")
+def lst_english():
+    return "asdf"
+
+
+menu_russia = [{"name":"Полный ввод слова","url":"input_russia"},{"name":"Найти слово из списка","url":"lst_russia"}]
+
+@app.route("/translate_russia")
+def translate_from_russia():
+
+    return render_template("translate_russia.html",menu=menu_russia)
 
 if __name__ == "__main__":
     app.run(debug=True)

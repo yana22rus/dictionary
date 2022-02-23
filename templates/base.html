@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<a href="{{url_for('translate_from_english')}}">Перевод слов с английского на русский язык</a>
+<img src="{{url_for('static', filename='img/english.png')}}" width="25" height="25">
+<a href="{{url_for('translate_from_russia')}}">Перевод слов с русского на английский язык</a>
+<img src="{{url_for('static', filename='img/russia.png')}}" width="25" height="25">
+<a href="{{url_for('lst_word')}}">Добавить слова для обучения</a>
+<p>Меню</p>
+
+    <div id="sidebar">
+        {% block sidebar %}
+	<h2>Левая панель</h2>
+        {% endblock%}
+	</div>
+
+    <div id="container">
+
+
+    <div id="content">
+        {% block content %}
+	<h2>Основной контент страницы</h2>
+        {% endblock%}
+	</div>
+    </div>
+
+
+
+</body>
+</html>
