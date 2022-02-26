@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block sidebar %}
+
+{% for m in menu_russia %}
+<p><a href="{{m.url}}">{{m.name}}</a></p>
+{% endfor %}
+{% endblock %}
+
+{% block content %}
+{% for cat,msg in get_flashed_messages(True) %}
+<div class="flash {{cat}}">{{msg}}</div>
+{%endfor%}
+<form method="POST">
+
+    <p><span name="word">{{q_russia_word}}</span> - Перевод слова <input type="text" name="word"> <input type="hidden" name="{{q_english_word}}"> <input type="submit"></p>
+
+</form>
+
+
+
+
+{% endblock %}

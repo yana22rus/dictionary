@@ -1,4 +1,4 @@
-from random import choice
+from random import choice,shuffle
 import os
 from flask import Flask,render_template,request,url_for,flash
 from flask_sqlalchemy import SQLAlchemy
@@ -91,23 +91,79 @@ def input_english():
 
     if request.method == "POST":
 
-        data,hidden_input = request.form
+        lst = []
 
-        if request.form["word"].strip(" ") == hidden_input:
+        for x in request.form.keys():
+
+            lst.append(x)
+
+        if request.form["word"].strip(" ") == lst[-1]:
 
             flash("Перевод верный", category='success')
 
         else:
-            flash("Перевод не верный", category='error')
 
-        return render_template("input_english.html", menu_english=menu_english, q_english_word=q_english_word,q_russia_word=q_russia_word)
+            flash("Перевод не верный", category='error')
 
     return render_template("input_english.html",menu_english=menu_english,q_english_word=q_english_word,q_russia_word=q_russia_word)
 
 
-@app.route("/lst_english")
+@app.route("/lst_english",methods=["GET","POST"])
 def lst_english():
-    return "asdf"
+
+    lst_id_word = []
+
+    items = Dictionary.query.all()
+
+    for x in items:
+
+        lst_id_word.append(x.id)
+
+    r = choice(lst_id_word)
+
+    q = Dictionary.query.filter_by(id=r).first()
+
+    q_english_word = q.english_word
+
+    q_russia_word = q.russia_word
+
+    rus_word = q.russia_word
+
+    q_russia_word = [q_russia_word]
+
+    for x in range(6):
+
+        q = Dictionary.query.filter_by(id=choice(lst_id_word)).first()
+
+        rus = q.russia_word
+
+        if rus not in q_russia_word:
+
+            q_russia_word.append(rus)
+
+    shuffle(q_russia_word)
+
+    if request.method == "POST":
+
+        select = request.form.get('comp_select')
+
+        lst = []
+
+        for x in request.form.keys():
+
+            lst.append(x)
+
+        if select == lst[-1]:
+
+            flash("Перевод верный", category='success')
+
+        else:
+
+            flash("Перевод не верный", category='error')
+
+
+
+    return render_template("lst_input_english.html",menu_english=menu_english,q_english_word=q_english_word,q_russia_word=q_russia_word,rus_word=rus_word)
 
 
 menu_russia = [{"name":"Полный ввод слова","url":"input_russia"},{"name":"Найти слово из списка","url":"lst_russia"}]
@@ -115,7 +171,104 @@ menu_russia = [{"name":"Полный ввод слова","url":"input_russia"},
 @app.route("/translate_russia")
 def translate_from_russia():
 
-    return render_template("translate_russia.html",menu=menu_russia)
+    return render_template("translate_russia.html",menu_russia=menu_russia)
+
+
+@app.route("/input_russia",methods=["GET","POST"])
+def input_russia():
+
+    lst_id_word = []
+
+    items = Dictionary.query.all()
+
+    for x in items:
+
+        lst_id_word.append(x.id)
+
+    r = choice(lst_id_word)
+
+    q = Dictionary.query.filter_by(id=r).first()
+
+    q_english_word = q.english_word
+
+    q_russia_word = q.russia_word
+
+    if request.method == "POST":
+
+        lst = []
+
+        for x in request.form.keys():
+
+            lst.append(x)
+
+        if request.form["word"].strip(" ") == lst[-1]:
+
+            flash("Перевод верный", category='success')
+
+        else:
+
+            flash("Перевод не верный", category='error')
+
+    return render_template("input_russia.html",menu_russia=menu_russia,q_english_word=q_english_word,q_russia_word=q_russia_word)
+
+
+
+
+
+@app.route("/lst_russia",methods=["GET","POST"])
+def lst_russia():
+
+    lst_id_word = []
+
+    items = Dictionary.query.all()
+
+    for x in items:
+
+        lst_id_word.append(x.id)
+
+    r = choice(lst_id_word)
+
+    q = Dictionary.query.filter_by(id=r).first()
+
+    q_english_word = q.english_word
+
+    q_russia_word = q.russia_word
+
+    eng_word = q.english_word
+
+    q_english_word = [q_english_word]
+
+    for x in range(6):
+
+        q = Dictionary.query.filter_by(id=choice(lst_id_word)).first()
+
+        eng = q.english_word
+
+        if eng not in q_russia_word:
+
+            q_english_word.append(eng)
+
+    shuffle(q_english_word)
+
+    if request.method == "POST":
+
+        select = request.form.get('comp_select')
+
+        lst = []
+
+        for x in request.form.keys():
+
+            lst.append(x)
+
+        if select == lst[-1]:
+
+            flash("Перевод верный", category='success')
+
+        else:
+
+            flash("Перевод не верный", category='error')
+
+    return render_template("lst_input_russia.html",menu_russia=menu_russia,q_english_word=q_english_word,q_russia_word=q_russia_word,eng_word=eng_word)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block sidebar %}
+
+{% for m in menu_english %}
+<p><a href="{{m.url}}">{{m.name}}</a></p>
+{% endfor %}
+{% endblock %}
+
+{% block content %}
+{% for cat,msg in get_flashed_messages(True) %}
+<div class="flash {{cat}}">{{msg}}</div>
+{%endfor%}
+<form method="POST">
+    <span name="word">{{q_english_word}}</span>
+
+
+<select name="comp_select">
+  {% for x in q_russia_word %}
+<option value="{{x}}">{{x}}</option>
+{% endfor %}
+
+</select>
+
+<input type="hidden" name="{{rus_word}}">
+    <input type="submit">
+
+</form>
+
+
+
+
+{% endblock %}

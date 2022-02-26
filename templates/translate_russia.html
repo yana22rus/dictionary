@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 {% block sidebar %}
-<ul>
-    <li><a href="{{url_for('input_english')}}">Полный ввод слова</a></li>
-    <li><a href="{{url_for('lst_english')}}">Найти слово из списка</a></li>
-</ul>
+{% for m in menu_russia %}
+<p><a href="{{m.url}}">{{m.name}}</a></p>
+{% endfor %}
 {% endblock %}
 
 
 {% block content %}
-
 
 
 {% endblock %}
