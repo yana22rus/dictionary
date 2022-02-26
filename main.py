@@ -1,10 +1,11 @@
 from random import choice
 import os
-from flask import Flask,render_template,request,url_for
+from flask import Flask,render_template,request,url_for,flash
 from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'my_secret_key'
 
 path = os.path.join(os.getcwd(),'dictionary.db')
 
@@ -84,17 +85,24 @@ def input_english():
 
     q = Dictionary.query.filter_by(id=r).first()
 
-    r_q_english_word = q.english_word
+    q_english_word = q.english_word
 
+    q_russia_word = q.russia_word
 
     if request.method == "POST":
 
-        print(request.form["word"])
+        data,hidden_input = request.form
 
-        print(q.russia_word)
+        if request.form["word"].strip(" ") == hidden_input:
 
+            flash("Перевод верный", category='success')
 
-    return render_template("input_english.html",menu_english=menu_english,r_q_english_word=r_q_english_word)
+        else:
+            flash("Перевод не верный", category='error')
+
+        return render_template("input_english.html", menu_english=menu_english, q_english_word=q_english_word,q_russia_word=q_russia_word)
+
+    return render_template("input_english.html",menu_english=menu_english,q_english_word=q_english_word,q_russia_word=q_russia_word)
 
 
 @app.route("/lst_english")

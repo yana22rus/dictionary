@@ -7,10 +7,12 @@
 {% endblock %}
 
 {% block content %}
-
+{% for cat,msg in get_flashed_messages(True) %}
+<div class="flash {{cat}}">{{msg}}</div>
+{%endfor%}
 <form method="POST">
 
-<p>{{r_q_english_word}} - Перевод слова <input type="text" name="word"> <input type="submit"></p>
+    <p><span name="word">{{q_english_word}}</span> - Перевод слова <input type="text" name="word"> <input type="hidden" name="{{q_russia_word}}"> <input type="submit"></p>
 
 </form>
 
